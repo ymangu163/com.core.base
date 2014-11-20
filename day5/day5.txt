@@ -1,0 +1,40 @@
+操作系统短信的uri:　content://sms/
+
+查询联系人: raw_contacts, data
+
+查询:
+1. 去raw_contacts表中取所有联系人的_id
+
+2. 去data表中根据上面取到的_id查询对应id的数据.
+
+content://com.android.contacts/raw_contacts
+content://com.android.contacts/data
+
+
+添加:
+1. 在raw_contacts表中添加一个记录
+
+2. 根据上面添加记录的id, 取data表中添加三条数据
+
+
+
+内容观察者:
+发件箱的uri: content://sms/outbox
+
+
+Android not Responding(应用程序无响应) 阻塞了主线程 ANR异常
+
+异常:
+CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+
+只有原始的线程(主线程, ui线程)才能修改view对象.
+
+在子线程中修改view的显示状态, 会报上面异常.
+
+
+http://localhost:8080/ServerItheima28/servlet/LoginServlet?username=%E6%9D%8E%E5%9B%9B&password=%E5%BC%A0%E4%B8%89
+
+
+github.com 开源网站, 一个大的仓库. 存放的都是框架
+
+直接拿来用 最火的android开源项目
