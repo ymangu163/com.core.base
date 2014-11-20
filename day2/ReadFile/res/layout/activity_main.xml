@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/btn_read_private"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="读私有文件" />
+
+    <Button
+        android:id="@+id/btn_write_private"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写私有文件" />
+
+    <Button
+        android:id="@+id/btn_read_readable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="读可读文件" />
+
+    <Button
+        android:id="@+id/btn_write_readable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写可读文件" />
+
+    <Button
+        android:id="@+id/btn_read_writeable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="读可写文件" />
+
+    <Button
+        android:id="@+id/btn_write_writeable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写可写文件" />
+
+    <Button
+        android:id="@+id/btn_read_readable_writeable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="读可读可写文件" />
+
+    <Button
+        android:id="@+id/btn_write_readable_writeable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写可读可写文件" />
+
+</LinearLayout>
