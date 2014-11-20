@@ -1,0 +1,221 @@
+
+1》 Activity 生命周期
+
+完整生命周期  oncreate--》onstart--》onresume--》onpause--》onstop--》ondestory
+可视生命周期  onstart--》onresume--》onpause--》onstop
+前台生命周期  onresume--》onpause  界面用户仍然可见，但是失去焦点
+
+使用场景：
+1.应用程序退出自动保存数据   ondestory   oncreate
+2.应用程序最小化 暂停的操作  onstop onstart  视频播放器
+3.游戏的暂停和开始 前台生命周期
+
+横竖屏 切换生命周期：
+格斗游戏------ 打到10的时候，横竖屏 切换又满血复活了。
+竖屏---> 横屏  经历的生命周期：
+① 销毁竖屏的 oncreate--》onstart--》onresume--》onpause--》onstop--》ondestory   ②再生成横屏的----》oncreate--》onstart--》onresume
+再转到竖屏 也是一样的过程：先销毁，再创建
+
+问1：怎么限制它让它切换时不销毁Activity呢？
+答：在清单文件的<Activity>中加入 configChanges 限制
+  android:configChanges="orientation|keyboardHidden|screenSize"
+orientation--> 不受方向影响
+keyboardHidden ---> 软键盘不出现
+screenSize ---->  不受屏幕大小影响 (4.0以前不需要加这个)
+
+
+2》任务栈 & 启动模式
+
+1.一个应用程序一般都是由多个activity组成的。
+2.任务栈（task stack）（别名back stack后退栈） 记录存放用户开启的activity的。
+3.一个应用程序一被开启系统就给他分配一个任务栈，当所有的activity都退出的时候，任务栈就清空了。
+4.任务栈的id是一个integer的数据类型 自增长的。
+5.在android操作系统里面会存在多个任务栈，一个应用程序一个任务栈。
+6.桌面应用和一般的应用程序是一样的，任务栈的行为也是一样。
+7.默认情况下， 关闭掉一个应用程序，清空了这个应用程序的任务栈。应用程序的进程还会保留。
+
+
+为什么要引入任务栈的概念：
+windows下 可以通过点击任务栏 切换任务
+android下 长按小房子 切换任务
+
+为了记录用户开启了那些activity，记录这些activity开启的先后顺序，google引入任务栈（task stack）概念，帮助维护好的用户体验。
+
+栈：后进先出 的数据结构   一个链表
+用户操作的Activity 始终是位于栈顶的Activtiy.
+ getTaskId() 方法可获取到所在 Task栈的id.
+
+问2： 怎么让按后退键时不退出程序呢？
+答：按后退键的回调的方法是 onBackPressed()，在父类的super.onBackPressed() 其实就是执行 finish()方法，和我们直接写 finish() 方法是一样的。复写这个方法就可以执行我们自己的操作。清空这个方法，再按返回键就没反应了。
+Laucher 就是这样做的
+
+activity的启动模式：
+1. standard   默认标准的启动模式， 每次startActivity都是创建一个新的activity的实例。
+              适用于绝大大数情况
+2. singleTop  单一顶部，如果要开启的activity在任务栈的顶部已经存在，就不会创建新的实例，
+              而是调用 onNewIntent() 方法 (生命周期的一个新方法)。
+              应用场景： 浏览器书签。 避免栈顶的activity被重复的创建，解决用户体验问题。
+3. singletask 单一任务栈 ， activity只会在任务栈里面存在一个实例。如果要激活的activity，在
+              任务栈里面已经存在，就不会创建新的activity，而是复用这个已经存在的activity，
+              调用 onNewIntent() 方法，并且清空当前activity任务栈上面所有的activity
+              应用场景：浏览器activity，开销大的情况下使用，  整个任务栈只有一个实例，节约内存和cpu的目的
+              注意： activity还是运行在当前应用程序的任务栈里面的。不会创建新的任务栈。
+
+4. singleInstance  单态 单例模式  (占用一个办公室，且办公室只有它一个人)
+              单一实例，整个手机操作系统里面只有一个实例存在。不同的应用去打开这个activity
+	      共享 公用的同一个activity，只会调用 onNewIntent() 方法，task也 还是同一个。
+              他会运行在自己单独，独立的任务栈里面，并且任务栈里面只有他一个实例存在。
+              应用场景：呼叫来电界面 InCallScreen
+
+Laucher 用的模式是 singleTask.
+
+问3： 怎么知道是哪种模式启动的呢？
+答：在清单文件中的 <Activity> 的 launchMode 设置。
+  android:launchMode="singleInstance"
+ 当然也可以    <application> 中设置
+
+
+浏览器   很耗内存
+js 解析引擎
+html 解析引擎
+css 解析引擎
+webkit 内核  c代码写的。
+
+
+
+3》 Broadcast  Receiver 广播接收者
+
+四大组件：
+Activity
+Content provider 内容提供者
+Broadcast receiver 广播接受者
+Service  服务
+
+
+电台：   发送广播
+收音机: 接受广播
+
+
+android系统下的广播：
+电池电量低。
+电池充电完毕
+短信到来了
+程序安装卸载
+sd卡卸载 安装
+
+
+1.写一个类继承广播接受者
+2.在清单文件配置关心的动作
+3.一旦广播事件发生了，就会执行广播接受者的onreceive方法
+
+
+
+ip 拔号器 
+ 号码前 + 17951    ip 号码   这个电话就走互联网，网络路径的  电话费便宜点。
+实现步骤：
+① 点击拨号按钮后，发送一个广播
+② phone 应用接到这个广播，在电话号码前 +  17951 前缀   (如17908、17908、17951)
+③ 再往下传递这个修改后的号码
+
+伪基站：
+伪基站 可以模仿 移动、联通的基站，发出跟它们一样频率的信号，因为距离更近 效率更高  所以可以把真的基站屏蔽掉。你连上的都是它们的基站，不是移动的基站，它可以模拟任何号码给你发短信。这样你手机上收到的110电话、短信   都是它们发出来的，不是真的，根本没经过运营商。
+
+   <!-- 配置广播接受者 -->
+        <receiver android:name="com.itheima.ipdail.OutCallReceiver">
+            <intent-filter>
+                <!-- 配置广播接收者关心的事件是外拨电话 -->
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+            </intent-filter>
+        </receiver>
+ 加上这个之后，以后只要拨打电话，就会进入OutCallReceiver.
+
+public class OutCallReceiver extends BroadcastReceiver {
+	//当接收到消息对应的方法
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		String number = getResultData();
+		System.out.println("哈哈，有电话打出去了"+number);
+		SharedPreferences sp = context.getSharedPreferences("config", Context.MODE_PRIVATE);
+		String ipnumber = sp.getString("ipnumber", "");
+		//判断是否是长途。是否有前缀
+		setResultData(ipnumber+number);
+	}
+}
+
+
+短信到来的广播接受者 4.4    逐渐被弱化  5.0 可能就不能用了。
+因为它太容易被利用，如支付宝短信等。
+
+
+短信窃听器
+在清单文件中 设置广播接收者的优先级，让它先收到广播。
+  <intent-filter android:priority="1000">
+这个值是 -1000~+1000， 默认是0.
+
+
+广播分类
+① 无序广播，所有的接收者都会接收到事件，不可拦截，不可被修改
+②  有序广播，按照优先级，一级一级的向下传递，高优先级的广播接收者 可修改广播数据，可终止掉广播事件
+
+1)  如果在清单文件中有 两个receiver 的优先级是一样的，那么谁在前面，谁就先收到 广播。
+2)  如果在不同的应用程序中  有两个receiver 的优先级是一样的，那么谁先安装，谁就先收到广播。
+
+
+
+4》 Service 服务
+
+服务： 长期后台运行的   没有界面的组件
+
+android应用：什么地方需要用到服务？
+
+天气预报：后台的连接服务器的逻辑，每隔一段时间 获取最新的天气信息
+股票显示：后台的连接服务器的逻辑，每隔一段时间 获取最新的股票信息
+mp3播放器： 后台长期的播放音乐。
+
+
+new Thread（）{}.start(); 子线程没有界面，也是长期后台运行的。
+
+
+android系统进程管理是按照一定的规则的：
+1.应用程序一旦被打开 通常情况下关闭（清空任务栈）后进程不会停止。方便下一次快速启动。
+带来内存不足的问题。
+2.Android系统有一套 内存清理机制。 按照优先级去回收系统的内存。
+
+
+进程分为5个等级的优先级：（从高到低）
+
+1.Foreground process 前台进程  用户正在玩的应用程序对应的进程
+
+2.Visible process 可视进程 用户仍然可以看到这个进程的界面。
+
+3.Service process服务进程  应用程序有一个服务组件在后台运行。
+
+4.Background process 后台进程  应用程序没有服务在运行 并且最小化 （activity onstop）
+
+5.Empty process 空进程 没有任何运行的activity， 任务栈空了
+
+
+长期后台运行的组件， 不要在activity开启子线程。
+应该是创建服务，在服务里面开启子线程。
+
+服务的目的：
+1.长期后台运行。
+2.提高进程的优先级，系统不容易回收掉进程，即便回收了，内存充足的时候，把进程重新创建。
+
+
+Activity 与 Service 父类相同，都是继承于 ContextWrapper
+因为服务没有界面，所以没有获取焦点 和界面可见的生命周期，只有 oncreate(),  onstart() , ondestroy()
+
+Service 也是四大组件之一，也要在清单文件中注册一下。
+onStartCommand()  ----  开启服务指令
+服务只会创建一次，创建了一次之后 再创建 只会调用 onStartCommand()开启，不会再调用 oncreate()了。
+前面已经说了，点返回 关闭Activity后，只是把任务栈清空了，进程并不会停止， 服务也还会继续运行。即使因为内存原因服务进程被回收了，也会在内存充足时再次自动开启 -----  360 卫士。
+
+
+
+
+
+
+
+
+
