@@ -1,0 +1,7 @@
+ <receiver android:name="com.itheima.sdcardmointor.SDStatusReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED"/>
+                <action android:name="android.intent.action.MEDIA_REMOVED"/>
+               	<data android:scheme="file"></data>
+            </intent-filter>
+</receiver>
