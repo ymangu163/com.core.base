@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <com.loopj.android.image.SmartImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/et_url"
+            android:layout_width="0dip"
+            android:text="http://imgstatic.baidu.com/img/image/d833c895d143ad4bf450b6dd80025aafa40f06b4_%E5%89%AF%E6%9C%AC.jpg"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>
