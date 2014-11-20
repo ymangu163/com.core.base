@@ -1,0 +1,74 @@
+1》 数据库
+1.  SQLiteOpenHelper  --- 作用： 创建数据库，打开数据库，更新数据库
+   onCreate，onUpgrade，onOpen
+
+创建表:
+create table person(
+	_id integer primary key,
+	name varchar(20),
+	age integer
+);
+
+添加: insert into person(name, age) values('lisi', 19);
+
+删除: delete from person where _id = 1;
+
+修改: update person set name = '李四' where name = '王五';
+
+查询所有: select * from person;
+
+查询单条: select * from person where name = 'zhangsan';
+
+2. 使用api方式查询数据库  ----  不需要懂 SQL 语句
+
+ContentValues values = new ContentValues();
+values.put("name", person.getName());		// key作为要存储的列名, value对象列的值
+values.put("age", person.getAge());
+long id = db.insert("person", "name", values);
+
+
+3. 事务:
+update person set balance = balance - 100 where name = 'lisi';
+update person set balance = balance + 100 where name = 'zhangsan';
+
+	// 开启事务
+	db.beginTransaction();
+
+	// 标记事务成功
+	db.setTransactionSuccessful();
+
+	// 停止事务
+	db.endTransaction();
+
+快束插入1w 条数据：
+  1.每插入一条数据都要打开、关闭数据库
+ 可以把它写成一个事务，全部插入完后再关闭数据库。
+
+
+2》 Content Provider ---- 把自己的数据暴露给别人用，让其它人可以增删改查自己的数据
+UriMatcher ----> 相当于 分机号
+
+
+3》 权限
+ <permission>  自定义权限
+<use_permission>  可申请  自定义权限
+
+
+4》示列表的控件: ListView
+MVC 
+mode 数据模型(List<Person>)
+
+view 视图(ListView)
+
+controller 控制器(把mode层的数据绑定到view上去)(Adapter适配器)
+
+System.gc();	// 垃圾回收
+
+
+LayoutInflater 类可以把一个xml布局文件, 转换成一个view对象
+
+
+
+
+
+
