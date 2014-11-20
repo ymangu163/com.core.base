@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.itheima28.sqlitedemo"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.itheima28.sqlitedemo" >
+    </instrumentation>
+    
+    <permission android:name="aa.bb.cc.read" ></permission>
+    <permission android:name="aa.bb.cc.write" ></permission>
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <uses-library android:name="android.test.runner" />
+
+        <activity
+            android:name="com.itheima28.sqlitedemo.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name=".providers.PersonContentProvider"
+            android:authorities="com.itheima28.sqlitedemo.providers.PersonContentProvider"
+            android:readPermission="aa.bb.cc.read"
+            android:writePermission="aa.bb.cc.write" >
+        </provider>
+    </application>
+
+</manifest>
