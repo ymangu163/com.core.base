@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dip" >
+
+    <com.loopj.android.image.SmartImageView
+        android:id="@+id/siv_listview_item_icon"
+        android:layout_width="100dip"
+        android:layout_height="60dip"
+        android:src="@drawable/a" />
+
+    <TextView
+        android:id="@+id/tv_listview_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dip"
+        android:layout_toRightOf="@id/siv_listview_item_icon"
+        android:singleLine="true"
+        android:text="3Q大战宣判: 腾讯获赔500万"
+        android:textColor="@android:color/black"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tv_listview_item_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_listview_item_title"
+        android:layout_below="@id/tv_listview_item_title"
+        android:layout_marginTop="3dip"
+        android:text="啊发送旅客登机挥发速度发送旅客登机"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_listview_item_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="668跟帖"
+        android:textColor="#FF0000"
+        android:textSize="12sp" />
+
+</RelativeLayout>
