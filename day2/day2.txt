@@ -1,0 +1,89 @@
+1》 获得内存状态  ---  学习源码查找技巧
+在 Android 源码的 /packages/apps 目录下，有很多系统的应用的源码，都是对外公开的。
+ 找到settings ,拷出来，把它加入到 Eclipse ，使用 Android Project from Existing Code.
+
+把Google源代码的工程导入进来，肯定是有错的，不要想着去把它运行起来。因为它可能调用了一些隐藏的 API,这些API 没有暴露出来，我们不能用。我们看到的都是暴露出来的。
+
+// 获得sd卡的内存状态
+	File sdcardFileDir = Environment.getExternalStorageDirectory();
+	String sdcardMemory = getMemoryInfo(sdcardFileDir);
+	通过扇区大小，扇区总数相乘得到。
+
+小知识：
+1.  怎么在整个工程中 搜索某个String ?
+答：在Package Explorer 中选中工程 ----> 按下 Ctrl + S  ---->在弹出的 Search 窗口中 选 File Search. ----->填入 String  ,点击 Search 按钮。
+
+2》 布局
+1.TableLayout 表格布局
+android:shrinkColumns		收缩列
+android:stretchColumns		拉伸列
+android:collapseColumns		隐藏列
+android:layout_column		指定列(作用在列的身上)
+android:layout_span		合并列(作用在列的身上)
+
+TableRow单元行里的单元格的宽度小于默认的宽度时就不起作用,其默认是fill_parent，高度可以自定义大小。
+
+2. 单位
+常见的密度比值:
+	240*320 的密度比值是: 0.75
+	320*480 的密度比值是: 1.0
+	480*800 的密度比值是: 1.5
+
+float density = getResources().getDisplayMetrics().density;
+1.0 * 160dp = 160px
+0.75 * 160dp = 120px
+1.5 * 160dp = 240px
+
+3. 测试
+冒烟测试----->   adb shell monkey  -v  1000
+  测试某个程序 ----->  adb  shell monkey -p  packagename  -v 1000
+
+
+4. android下单元测试:
+在AndroidManifest.xml文件中配置一下信息:
+
+    在manifest节点下:
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.itheima28.junittest" />
+ 
+    在application节点下配置下面信息:
+    <uses-library android:name="android.test.runner" />
+
+测试时, 定义一个类继承AndroidTestCase
+
+5.  测试另一个工程
+ 新建工程时 选择 Android Test Project.
+
+
+3》 存储  --实例：QQ登录
+1. 把 QQ 号 与密码保存到  应用包 目录的成  .txt 文件
+文件存储:
+	this.getFilesDir();	// /data/data/包名/files
+	this.getCacheDir();	// /data/data/包名/cache
+
+	openFileOutput("aa.txt", 0);    /data/data/包名/files/aa.txt
+
+2.  
+
+
+4》 权限
+chmod
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
