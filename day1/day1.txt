@@ -1,0 +1,114 @@
+1》 Android 环境
+
+虚拟机的区别:
+JVM: .java --> javac --> .class --> jar --> .jar
+架构: 堆栈
+
+DVM: .java --> javac --> .class --> dx.bat --> .dex
+架构: 寄存器(cpu上一块高速的缓存)
+
+下载sdk版本:
+在hosts文件中追加以下信息:
+74.125.113.121 developer.android.com 
+203.208.46.146 dl.google.com 
+203.208.46.146 dl-ssl.google.com
+
+adb  android debug bridge  android调试桥
+
+模拟器启动失败:
+需要配置ANDROID_SDK_HOME
+指定一个非中文, 并且没有空格的文件夹
+
+android调试桥: adb命令使用
+需要在系统环境遍历中path中追加adb.exe的完整路径
+D:\IDE\adt-bundle-windows-x86-20130729\sdk\platform-tools
+
+
+2》工程目录结构:
+src: 存放java代码
+gen: 存放自动生成文件的. R.java 存放res文件夹下对应资源的id
+project.properties: 指定当前工程采用的开发工具包的版本
+libs: 当前工程所依赖的jar包.
+assets: 放置一些程序所需要的媒体文件.还可以放一些db数据库   (不会在R 中记录)
+bin: 工程的编译目录. 存放一些编译时产生的临时文件和当前工程的.apk文件.
+res(resources): 资源文件.
+	drawable: 存放程序所用的图片.
+	layout: 存放android的布局文件.
+	menu: 存放android的OptionsMenu菜单的布局.
+	values (应用程序所需要的数据. 会在R文件中生成id)
+		strings.xml 存放android字符串.
+		dimens.xml 存放屏幕适配所用到的尺寸.
+		style.xml 存放android下显示的样式.
+	values-sw600dp 7寸平板所对应的值
+	values-sw720dp-land 10寸平板所对应的值
+	values-v11 指定3.0版本以上的手机显示的样式.
+	values-v14 指定4.0版本以上的手机显示的样式.
+AndroidManifest.xml: android应用程序的入口文件. 声明了android里边的组件. 和相关配置信息.
+proguard-project.txt: 加密当前程序所使用.
+
+
+3》打包安装过程(Run as Android Application ) :
+ 把 .apk 文件 解压 会看到包括 5个文件：META-INF (加密-签名的信息)、res、AndroidManifest.xml、classes.dex、resources.arsc.
+	1. 生成apk文件.
+		1). 生成.dex文件.
+		2). 资源索引表的生成resources.arsc.
+		3). 准备未编译文件.
+		4). 清单文件AndroidMenifest.xml文件转换成二进制.
+		5). 使用debug.keystore对整个应用程序进行打包签名.
+
+	2. 加载apk文件到模拟器中.
+		把apk文件加载到/data/local/tmp/xxx.apk
+
+	3. 安装应用程序.
+		1). 把/data/local/tmp/xxx.apk文件, 剪切/data/app/包名-1.apk
+		2). 在/data/data/文件夹下以包名创建一个文件夹, 用于存储当前程序的数据.
+		3). 在/data/system/packages.xml和packages.list文件中分别添加一条记录.(相当于Windows下的注册表，这样apk就和 /data/data下的数据建立了绑定关系)
+
+
+
+显示文本的控件  TextView
+输入框控件  	EditText
+按钮控件 	Button
+
+4》 程序实例---- 电话拨号器
+
+1. 给应用选图标
+Clipart ---> Choose  可选择系统提供的一些图标
+Scaling ----> Crop , Center
+Shape ---> Square, Circle
+Color  --->  可选择颜色
+
+2. 在布局中快速把 string 添加到string.xml 中
+先写好String ,如“新建” ----> 按 ctrl +1 ---->选择 "Extract Android String", 填入 name  ---->string 自动在 String.xml 中生成了，布局中的string 也自动替换了。
+
+
+① 获取 EditText 中的号码
+② 根据号码拨打电码
+  启动系统的拨打电码界面，使用 startActivity()
+// 2. 根据号码拨打电话
+Intent intent = new Intent();		// 创建一个意图
+intent.setAction(Intent.ACTION_CALL);		// 指定其动作为拨打电话
+intent.setData(Uri.parse("tel:" + number));	// 指定将要拨出的号码
+startActivity(intent);	// 执行这个动作
+
+③ 限制 EditText 的输入类型 -- phone  , number  点击就会出现数字键盘
+
+
+5》 Button  4种点击事件
+①  在布局中用 : android:onclick ="click"
+②  设置内部类   button.setonclickListener(new onclickListener(){  .....  });
+③   定义一个继承自onclickListener 的类
+④   让父类实现 onclickListener 接口， button.setonclickListener(this);
+
+6》 发送短信
+SystemClock.sleep(5000);
+SmsManager smsManager = SmsManager.getDefault();		// 短信管理器
+smsManager.sendTextMessage(
+		"18511619290", 	// 收件人的号码
+		null,			// 短信中心号码 
+		"今晚小树林, 不见不散.", 
+		null, 	// 如果发送成功, 回调此广播, 通知我们.
+		null);	// 当对方接收成功, 回调此广播.
+
+
+
