@@ -1,0 +1,102 @@
+1》服务的生命周期：
+
+一、采用start的方式开启服务 
+生命周期如下：
+                         onStart()过时了
+开启服务： onCreate()--> onStartCommand()  ---> onDestory();
+
+如果服务已经开启，不会重复的执行onCreate()， 而是会调用onStart()和 onStartCommand();
+
+服务停止的时候 onDestory().
+服务只会被停止一次
+
+二、服务还有一种开启方式，绑定的方式开启服务。
+onCreate() --->onBind();--->onunbind()-->onDestory();
+绑定服务不会调用onstart或者onstartcommand方法；
+
+混合调用的服务的生命周期：
+服务长期后台运行，又想调用服务的方法：
+1.start方式开启服务（保证服务长期后台运行）
+2.bind方式绑定服务（保证调用服务的方法）
+3.unbind解除绑定服务
+4.stopService停止服务。
+
+三、两种开启服务方法的区别。
+
+start方式开启服务。 一旦服务开启跟调用者(开启者)就没有任何关系了。
+开启者退出了，开启者挂了，服务还在后台长期的运行。
+开启者没有办法去调用服务里面的方法。（美国的司法独立）
+
+bind的方式开启服务，绑定服务，调用者挂了，服务也会跟着挂掉。不求同时生，但求同时死。
+开启者可以调用服务里面的方法。
+
+
+2》远程服务：调用者和服务在不同的工程代码里面。
+本地服务：调用者和服务在同一个工程代码里面。
+
+每一个应用程序都是运行在自己独立的进程里面的。
+进程操作系统分配内存空间的一个单位。进程的数据都是独立的。独立的内存空间。
+
+aidl：android interface definition language  安卓接口定义语言
+aidl文件都是公有的，没有访问权限修饰符
+IPC： inter process communication 进程间通讯
+
+绑定本地服务调用方法的步骤：
+1.在服务的内部创建一个内部类 提供一个方法，可以间接调用服务的方法
+private class MiddlePerson extends Binder implements IMiddlePerson{}
+2.实现服务的onbind方法，返回的就是中间人 MiddlePerson
+3.在activity 绑定服务。bindService();
+4.在服务成功绑定的时候 会执行一个方法 onServiceConnected 传递过来一个 IBinder对象
+5.强制类型转化 调用接口里面的方法。
+
+绑定远程服务调用方法的步骤：
+1.在服务的内部创建一个内部类 提供一个方法，可以间接调用服务的方法
+2.把暴露的接口文件的扩展名改为aidl文件 去掉访问修饰符 public
+private class MiddlePerson extends IMiddlePerson.Stub{}  IPC的子类
+3.实现服务的onbind方法，返回的就是中间人 IMiddlePerson
+4.在activity 绑定服务。bindService();
+5.在服务成功绑定的时候 会执行一个方法 onServiceConnected 传递过来一个 IBinder对象
+6.IMiddlePerson.Stub.asInterface(binder) 调用接口里面的方法。
+
+
+
+3》 MainActivity <--> Service  --->aidl
+
+错误1：在MainActivity中调用 bindService() 绑定服务后，就通过得到的IBinder对象去调用 Service中的方法时，出现空指针 异常？
+原因： bindService() 是异步操作，在另一个线程中运行。bindService()绑定服务后，要等一会儿才能得到IBinder对象。 
+解决：把调用Service中的方法 放在onServiceConnected()中。
+
+2》混合调用的服务的生命周期：
+服务长期后台运行，又想调用服务的方法：
+1.start方式开启服务（保证服务长期后台运行）
+2.bind方式绑定服务（保证调用服务的方法）
+3.unbind解除绑定服务
+4.stopService停止服务。
+
+顺序不能乱，乱了之后 可能出现 解除绑定失败或停止服务失败。
+
+3》bitmap
+ 图片大小：
+ ① 图片格式，不同的格式 保存1个像素占用的位数不一样，8位，16位，24位，32位
+ ② 图片分辨率--->像素的大小  1280*760=972800 个像素 .....
+ android 默认的vm(虚拟机) 的内存大小是16MB.
+ 与手机的运行内存要区分开来。
+
+1. 图片绽放 --- 把周围的[10几个]像素都用一个像素来表示。
+jpg -- 有损图片压缩
+bmp -- 无损图片
+
+2. 怎么替换过时的方法？
+点入 查看源码，会有提示 代替的方法。
+
+3. Matrix -- 对原图进行缩放的
+
+4. 搜索资料小技巧 ---face morph filetype:ppt
+filetype:ppt 指定是ppt类型
+
+5. face++  -- 人脸识别
+
+
+
+
+
