@@ -1,0 +1,33 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <style name="text_content_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#0000ff</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+<!--     样式和主题的区别，作用范围不同，样式都是作用在一个小控件，
+         主题作用一个activity，或者整个应用程序
+  样式都在布局文件里面配置，主题都在清单文件配置   -->
+     <style name="red_bg_theme">
+         <item name="android:background">#33ff0000</item>
+     </style>
+    
+</resources>

@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+    <TextView
+        style="@style/text_content_style"
+        android:text="你好啊" />
+
+</LinearLayout>
